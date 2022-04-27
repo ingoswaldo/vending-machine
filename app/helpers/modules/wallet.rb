@@ -2,8 +2,8 @@
 
 # Wallet module
 module Wallet
-  BILLS = [1000, 2000, 5000]
-  COINS = [100, 200, 500]
+  BILLS = [1000, 2000, 5000].freeze
+  COINS = [100, 200, 500].freeze
 
   attr_reader :bills, :coins
 
