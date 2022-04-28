@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# frozen_string_literal: true]
-
 $LOAD_PATH << '.'
 require 'app/helpers/modules/wallet'
 require 'app/helpers/modules/loop'
@@ -19,14 +17,15 @@ class User
   end
 
   def choose_money(total)
-    choose_money = 0
-    choose_money = choose_coins_from_total(total) if (total < 1000 && coins?) || @coins.sum >= total
-    choose_money = choose_bills_from_total(total) if bills?
-    choose_money
+    return choose_coins_from_total(total) if (total < 1000 && coins?) || @coins.sum >= total
+
+    return choose_bills_from_total(total) if bills?
+
+    0
   end
 
   def mount_message
-    puts "#{@full_name.capitalize}, you have $#{mount} in your wallet"
+    puts "#{full_name.capitalize}, you have $#{mount} in your wallet"
   end
 
   def pay(drink)
@@ -58,11 +57,7 @@ class User
 
   def save_bills_coins_from_change(change)
     Loop.infinite do |continue|
-      change -= if change < 1000
-                  get_coin_from_change(change)
-                else
-                  get_bill_from_change(change)
-                end
+      change -= change < 1000 ? get_coin_from_change(change) : get_bill_from_change(change)
       continue = false if change.zero?
       continue
     end
