@@ -91,18 +91,29 @@ class Main
     ]
   end
 
-  def self.print_drinks(drinks)
+  def self.print_machine_mount(mount)
+    Message.print_30_lines
+    puts "The machine has $#{mount}"
+    Message.print_30_lines
+  end
+
+  def self.print_drinks(drinks, with_machine_mount: false)
+    machine_mount = 0
     puts 'List of drinks in the machine'
     Message.print_30_lines
-    drinks.each { |item| print "#{item.to_s} \n" }
+    drinks.each do |drink|
+      print "#{drink.to_s} \n"
+      machine_mount += drink.mount_sold if with_machine_mount
+    end
     Message.print_30_lines
+    print_machine_mount machine_mount if with_machine_mount
   end
 
   def self.quit?(drinks)
     options = { '1': 'Yes', '2': 'No' }
     input = Message.ask 'Do you want continue?', options
     if input == '2'
-      print_drinks drinks
+      print_drinks drinks, with_machine_mount: true
       Message.stop
       return true
     end
